@@ -4,6 +4,9 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import { RedisStore } from 'connect-redis';
 import Redis from 'ioredis';
+import { createBullBoard } from '@bull-board/api';
+import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
+import { ExpressAdapter } from '@bull-board/express';
 import { env } from './config/env.js';
 import { logger } from './utils/logger.js';
 import { errorHandler } from './middleware/errorHandler.js';
@@ -11,6 +14,8 @@ import { healthRouter } from './routes/health.js';
 import { authRouter } from './routes/auth.js';
 import { senderRouter } from './routes/senders.js';
 import { emailRouter } from './routes/emails.js';
+import { slackRouter } from './routes/slack.js';
+import { emailQueue } from './queue/emailQueue.js';
 
 export const app = express();
 
@@ -63,11 +68,21 @@ app.use(
   })
 );
 
+// Bull Board dashboard at /admin/queues (no auth for internal dev use)
+const serverAdapter = new ExpressAdapter();
+serverAdapter.setBasePath('/admin/queues');
+createBullBoard({
+  queues: [new BullMQAdapter(emailQueue)],
+  serverAdapter,
+});
+app.use('/admin/queues', serverAdapter.getRouter());
+
 // Base API Routes
 app.use('/api', healthRouter);
 app.use('/api', authRouter);
 app.use('/api', senderRouter);
 app.use('/api', emailRouter);
+app.use('/api', slackRouter);
 
 // Catch-all for unmatched /api routes
 app.use('/api/*', (_req, res) => {

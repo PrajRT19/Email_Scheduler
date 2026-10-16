@@ -1,6 +1,8 @@
 import { prisma } from '../db/prisma.js';
 import { EmailListItem, EmailDetail, Paginated, EmailCountsResponse } from '../types/api.js';
 import { NotFoundError } from '../utils/errors.js';
+import { esClient, EMAIL_INDEX, searchEmailIds } from './elasticsearchService.js';
+import { logger } from '../utils/logger.js';
 
 export interface EmailQueryParams {
   page?: number;
@@ -23,11 +25,25 @@ export async function getScheduledEmails(
   };
 
   if (q) {
-    whereClause.OR = [
-      { to: { contains: q, mode: 'insensitive' } },
-      { subject: { contains: q, mode: 'insensitive' } },
-      { bodyPreview: { contains: q, mode: 'insensitive' } },
-    ];
+    // Try Elasticsearch first; fall back to Postgres ILIKE on failure
+    let usedEs = false;
+    try {
+      const ids = await searchEmailIds(userId, q);
+      if (ids.length > 0) {
+        whereClause.id = { in: ids };
+        usedEs = true;
+      }
+    } catch (err: any) {
+      logger.warn({ err: err.message }, 'ES search failed; using Postgres ILIKE fallback');
+    }
+
+    if (!usedEs) {
+      whereClause.OR = [
+        { to: { contains: q, mode: 'insensitive' } },
+        { subject: { contains: q, mode: 'insensitive' } },
+        { bodyPreview: { contains: q, mode: 'insensitive' } },
+      ];
+    }
   }
 
   const [total, items] = await Promise.all([
@@ -93,11 +109,25 @@ export async function getSentEmails(
   };
 
   if (q) {
-    whereClause.OR = [
-      { to: { contains: q, mode: 'insensitive' } },
-      { subject: { contains: q, mode: 'insensitive' } },
-      { bodyPreview: { contains: q, mode: 'insensitive' } },
-    ];
+    // Try Elasticsearch first; fall back to Postgres ILIKE on failure
+    let usedEs = false;
+    try {
+      const ids = await searchEmailIds(userId, q);
+      if (ids.length > 0) {
+        whereClause.id = { in: ids };
+        usedEs = true;
+      }
+    } catch (err: any) {
+      logger.warn({ err: err.message }, 'ES search failed; using Postgres ILIKE fallback');
+    }
+
+    if (!usedEs) {
+      whereClause.OR = [
+        { to: { contains: q, mode: 'insensitive' } },
+        { subject: { contains: q, mode: 'insensitive' } },
+        { bodyPreview: { contains: q, mode: 'insensitive' } },
+      ];
+    }
   }
 
   const [total, items] = await Promise.all([

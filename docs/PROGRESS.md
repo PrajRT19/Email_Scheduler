@@ -21,10 +21,10 @@
 - [x] **B-REQ-16**: Email listing endpoints `GET /api/emails/scheduled` (ordered by `scheduledAt ASC`) and `GET /api/emails/sent` (ordered by `sentAt DESC`) with pagination.
 - [x] **B-REQ-17**: Count aggregation endpoint `GET /api/emails/counts` returning scheduled and sent counts.
 - [x] **B-REQ-18**: Detail endpoint `GET /api/emails/:id` returning complete email details for the owning user.
-- [ ] **B-REQ-19**: Dedicated worker entrypoint (`src/worker.ts`) with configurable `WORKER_CONCURRENCY`.
-- [ ] **B-REQ-20**: Atomic database claim before sending (`UPDATE ... SET status='processing' WHERE id=? AND status='scheduled' RETURNING`).
-- [ ] **B-REQ-21**: Nodemailer delivery using sender's Ethereal credentials, setting `sentAt` and `previewUrl` on success or `failureReason` on failure.
-- [ ] **B-REQ-22**: Per-sender minimum delay guard in Redis using `moveToDelayed` + `DelayedError` (no thread blocking).
+- [x] **B-REQ-19**: Dedicated worker entrypoint (`src/worker.ts`) with configurable `WORKER_CONCURRENCY`.
+- [x] **B-REQ-20**: Atomic database claim before sending (`UPDATE ... SET status='processing' WHERE id=? AND status='scheduled' RETURNING`).
+- [x] **B-REQ-21**: Nodemailer delivery using sender's Ethereal credentials, setting `sentAt` and `previewUrl` on success or `failureReason` on failure.
+- [x] **B-REQ-22**: Per-sender minimum delay guard in Redis using `moveToDelayed` + `DelayedError` (no thread blocking).
 - [ ] **B-REQ-23**: Distributed hourly rate limiting per sender via atomic Redis Lua script counter.
 - [ ] **B-REQ-24**: Rate limit overflow rescheduling: move job to next hour window preserving sequence, update DB `scheduledAt`, consume no slot.
 - [ ] **B-REQ-25**: Slack OAuth v2 integration (`/api/slack/connect`, `/api/slack/callback`, `/api/slack/status`, `/api/slack/disconnect`).
@@ -66,7 +66,7 @@
 | **B2** | Auth (Google OAuth, sessions, /auth/me, logout, requireAuth, CORS) | Completed |
 | **B3** | Senders (seed script, GET /senders) | Completed |
 | **B4** | Schedule API (validation, transaction, BullMQ enqueue, list, detail, counts, http examples) | Completed |
-| **B5** | Worker (sending, idempotent claim, concurrency, per-sender min delay) | Todo |
+| **B5** | Worker (sending, idempotent claim, concurrency, per-sender min delay) | Completed |
 | **B6** | Rate Limiting (Lua counter, reschedule to next window, load test) | Todo |
 | **B7** | Elasticsearch (mapping, indexing on create/update, q search, DB fallback) | Todo |
 | **B8** | Slack (OAuth connect/status/disconnect, limit-hit webhook notification) | Todo |
@@ -148,4 +148,4 @@
 ---
 
 ## 8. NEXT STEP
-- Proceed to **Phase B5: Worker (sending, idempotent claim, concurrency, per-sender min delay)**.
+- Proceed to **Phase B6: Rate limiting (Lua counter, reschedule to next window, load test)**.

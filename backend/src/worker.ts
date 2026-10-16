@@ -1,10 +1,13 @@
-import { env } from './config/env.js';
+import { startEmailWorker } from './workers/emailWorker.js';
 import { logger } from './utils/logger.js';
 
-logger.info(`👷 ReachInbox Worker booting up with concurrency = ${env.WORKER_CONCURRENCY}...`);
+logger.info('🚀 Launching ReachInbox Background Worker...');
+const worker = startEmailWorker();
 
-const gracefulShutdown = () => {
-  logger.info('Shutting down worker gracefully...');
+const gracefulShutdown = async () => {
+  logger.info('Stopping BullMQ worker gracefully...');
+  await worker.close();
+  logger.info('BullMQ worker closed');
   process.exit(0);
 };
 

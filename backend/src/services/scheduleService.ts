@@ -6,6 +6,7 @@ import { createBodyPreview } from '../utils/text.js';
 import { ValidationError, NotFoundError } from '../utils/errors.js';
 import { ScheduleEmailInput, ScheduleEmailResponse } from '../types/api.js';
 import { logger } from '../utils/logger.js';
+import { indexEmail } from './elasticsearchService.js';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -217,6 +218,27 @@ export async function scheduleEmailBatch(
       logger.warn({ err: err.message }, 'Queue addBulk deferred (Redis may be offline)');
     }
   }
+
+  // Index emails in Elasticsearch asynchronously (non-blocking)
+  const now2 = new Date();
+  Promise.all(
+    emailsToInsert.map((email) =>
+      indexEmail({
+        id: email.id,
+        userId: email.userId,
+        batchId: email.batchId,
+        senderId: email.senderId,
+        senderEmail: email.senderEmail,
+        to: email.to,
+        subject: email.subject,
+        bodyPreview: preview,
+        status: email.status,
+        scheduledAt: email.scheduledAt,
+        sentAt: null,
+        createdAt: now2,
+      })
+    )
+  ).catch((err) => logger.warn({ err: err?.message }, 'ES bulk index error'));
 
   return {
     batchId,
