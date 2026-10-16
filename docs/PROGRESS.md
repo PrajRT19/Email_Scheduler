@@ -13,7 +13,7 @@
 - [x] **B-REQ-8**: Server-side session management via `httpOnly` cookie `sid` and CORS credentials support.
 - [x] **B-REQ-9**: Auth endpoints `GET /api/auth/me` and `POST /api/auth/logout`.
 - [x] **B-REQ-10**: Route authentication middleware scoping all data access to the authenticated user.
-- [ ] **B-REQ-11**: Ethereal SMTP test account seeding script (`npm run seed:senders`) and `GET /api/senders` endpoint (credentials never exposed to client).
+- [x] **B-REQ-11**: Ethereal SMTP test account seeding script (`npm run seed:senders`) and `GET /api/senders` endpoint (credentials never exposed to client).
 - [ ] **B-REQ-12**: Scheduling endpoint `POST /api/emails/schedule` with full Zod validation (recipients, delay, hourly limit, past date check, deduplication).
 - [ ] **B-REQ-13**: Transactional creation of Batch and individual Email records.
 - [ ] **B-REQ-14**: BullMQ delayed job enqueueing using `jobId = email.id` for idempotency and `scheduledAt` calculation.
@@ -64,7 +64,7 @@
 | **Step 0** | Inspection, design notes, progress tracker, API contract | Completed |
 | **B1** | Backend Scaffold (tsconfig, eslint, zod env, docker-compose, Prisma, error middleware, health) | Completed |
 | **B2** | Auth (Google OAuth, sessions, /auth/me, logout, requireAuth, CORS) | Completed |
-| **B3** | Senders (seed script, GET /senders) | Todo |
+| **B3** | Senders (seed script, GET /senders) | Completed |
 | **B4** | Schedule API (validation, transaction, BullMQ enqueue, list, detail, counts, http examples) | Todo |
 | **B5** | Worker (sending, idempotent claim, concurrency, per-sender min delay) | Todo |
 | **B6** | Rate Limiting (Lua counter, reschedule to next window, load test) | Todo |
@@ -148,4 +148,4 @@
 ---
 
 ## 8. NEXT STEP
-- Proceed to **Phase B3: Senders (seed script and GET /senders)**.
+- Proceed to **Phase B4: Schedule API (validation, transaction, BullMQ enqueue, list/detail/counts, docs/api-examples.http)**.
