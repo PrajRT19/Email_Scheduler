@@ -14,13 +14,13 @@
 - [x] **B-REQ-9**: Auth endpoints `GET /api/auth/me` and `POST /api/auth/logout`.
 - [x] **B-REQ-10**: Route authentication middleware scoping all data access to the authenticated user.
 - [x] **B-REQ-11**: Ethereal SMTP test account seeding script (`npm run seed:senders`) and `GET /api/senders` endpoint (credentials never exposed to client).
-- [ ] **B-REQ-12**: Scheduling endpoint `POST /api/emails/schedule` with full Zod validation (recipients, delay, hourly limit, past date check, deduplication).
-- [ ] **B-REQ-13**: Transactional creation of Batch and individual Email records.
-- [ ] **B-REQ-14**: BullMQ delayed job enqueueing using `jobId = email.id` for idempotency and `scheduledAt` calculation.
-- [ ] **B-REQ-15**: High-volume recipient support (1000+ recipients) with bulk DB inserts and `queue.addBulk` in chunks.
-- [ ] **B-REQ-16**: Email listing endpoints `GET /api/emails/scheduled` (ordered by `scheduledAt ASC`) and `GET /api/emails/sent` (ordered by `sentAt DESC`) with pagination.
-- [ ] **B-REQ-17**: Count aggregation endpoint `GET /api/emails/counts` returning scheduled and sent counts.
-- [ ] **B-REQ-18**: Detail endpoint `GET /api/emails/:id` returning complete email details for the owning user.
+- [x] **B-REQ-12**: Scheduling endpoint `POST /api/emails/schedule` with full Zod validation (recipients, delay, hourly limit, past date check, deduplication).
+- [x] **B-REQ-13**: Transactional creation of Batch and individual Email records.
+- [x] **B-REQ-14**: BullMQ delayed job enqueueing using `jobId = email.id` for idempotency and `scheduledAt` calculation.
+- [x] **B-REQ-15**: High-volume recipient support (1000+ recipients) with bulk DB inserts and `queue.addBulk` in chunks.
+- [x] **B-REQ-16**: Email listing endpoints `GET /api/emails/scheduled` (ordered by `scheduledAt ASC`) and `GET /api/emails/sent` (ordered by `sentAt DESC`) with pagination.
+- [x] **B-REQ-17**: Count aggregation endpoint `GET /api/emails/counts` returning scheduled and sent counts.
+- [x] **B-REQ-18**: Detail endpoint `GET /api/emails/:id` returning complete email details for the owning user.
 - [ ] **B-REQ-19**: Dedicated worker entrypoint (`src/worker.ts`) with configurable `WORKER_CONCURRENCY`.
 - [ ] **B-REQ-20**: Atomic database claim before sending (`UPDATE ... SET status='processing' WHERE id=? AND status='scheduled' RETURNING`).
 - [ ] **B-REQ-21**: Nodemailer delivery using sender's Ethereal credentials, setting `sentAt` and `previewUrl` on success or `failureReason` on failure.
@@ -65,7 +65,7 @@
 | **B1** | Backend Scaffold (tsconfig, eslint, zod env, docker-compose, Prisma, error middleware, health) | Completed |
 | **B2** | Auth (Google OAuth, sessions, /auth/me, logout, requireAuth, CORS) | Completed |
 | **B3** | Senders (seed script, GET /senders) | Completed |
-| **B4** | Schedule API (validation, transaction, BullMQ enqueue, list, detail, counts, http examples) | Todo |
+| **B4** | Schedule API (validation, transaction, BullMQ enqueue, list, detail, counts, http examples) | Completed |
 | **B5** | Worker (sending, idempotent claim, concurrency, per-sender min delay) | Todo |
 | **B6** | Rate Limiting (Lua counter, reschedule to next window, load test) | Todo |
 | **B7** | Elasticsearch (mapping, indexing on create/update, q search, DB fallback) | Todo |
@@ -148,4 +148,4 @@
 ---
 
 ## 8. NEXT STEP
-- Proceed to **Phase B4: Schedule API (validation, transaction, BullMQ enqueue, list/detail/counts, docs/api-examples.http)**.
+- Proceed to **Phase B5: Worker (sending, idempotent claim, concurrency, per-sender min delay)**.

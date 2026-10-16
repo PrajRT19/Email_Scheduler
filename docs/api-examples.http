@@ -1,0 +1,53 @@
+### Health Check
+GET http://localhost:4000/api/health
+
+### Google OAuth Consent Flow (Browser navigation)
+GET http://localhost:4000/api/auth/google
+
+### Get Current User Profile (Session Required)
+GET http://localhost:4000/api/auth/me
+
+### Logout
+POST http://localhost:4000/api/auth/logout
+
+### Get Senders
+GET http://localhost:4000/api/senders
+
+### Schedule Email Batch
+POST http://localhost:4000/api/emails/schedule
+Content-Type: application/json
+
+{
+  "senderId": "sender-uuid-placeholder",
+  "subject": "Follow up on our meeting",
+  "bodyHtml": "<p>Hey there,</p><p>Great connecting with you. Let me know if you are open for a quick demo this week.</p><p>Best,<br>Oliver</p>",
+  "recipients": [
+    "sarah.connor@example.com",
+    "john.doe@example.com",
+    "john.doe@example.com"
+  ],
+  "startTime": "2026-10-16T20:00:00.000Z",
+  "delayBetweenEmailsSeconds": 5,
+  "hourlyLimit": 50
+}
+
+### Get Scheduled Emails (Paginated, Searchable)
+GET http://localhost:4000/api/emails/scheduled?page=1&limit=20&q=demo
+
+### Get Sent Emails (Paginated, Searchable)
+GET http://localhost:4000/api/emails/sent?page=1&limit=20&q=
+
+### Get Email Counts (Scheduled & Sent)
+GET http://localhost:4000/api/emails/counts
+
+### Get Email Detail by ID
+GET http://localhost:4000/api/emails/email-uuid-placeholder
+
+### Get Slack Connection Status
+GET http://localhost:4000/api/slack/status
+
+### Connect Slack OAuth (Browser navigation)
+GET http://localhost:4000/api/slack/connect
+
+### Disconnect Slack
+POST http://localhost:4000/api/slack/disconnect

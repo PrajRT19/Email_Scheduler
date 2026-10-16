@@ -10,6 +10,7 @@ import { errorHandler } from './middleware/errorHandler.js';
 import { healthRouter } from './routes/health.js';
 import { authRouter } from './routes/auth.js';
 import { senderRouter } from './routes/senders.js';
+import { emailRouter } from './routes/emails.js';
 
 export const app = express();
 
@@ -66,6 +67,7 @@ app.use(
 app.use('/api', healthRouter);
 app.use('/api', authRouter);
 app.use('/api', senderRouter);
+app.use('/api', emailRouter);
 
 // Catch-all for unmatched /api routes
 app.use('/api/*', (_req, res) => {
