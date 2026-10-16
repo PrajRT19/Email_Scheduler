@@ -1,0 +1,114 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum EmailStatus {
+  scheduled
+  processing
+  sent
+  failed
+}
+
+model User {
+  id              String           @id @default(uuid())
+  name            String
+  email           String           @unique
+  avatarUrl       String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  batches         Batch[]
+  emails          Email[]
+  slackConnection SlackConnection?
+
+  @@index([email])
+}
+
+model Sender {
+  id             String   @id @default(uuid())
+  email          String   @unique
+  name           String
+  etherealUser   String
+  etherealPass   String
+  etherealHost   String   @default("smtp.ethereal.email")
+  etherealPort   Int      @default(587)
+  etherealSecure Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  batches        Batch[]
+  emails         Email[]
+
+  @@index([email])
+}
+
+model Batch {
+  id                         String   @id @default(uuid())
+  userId                     String
+  senderId                   String
+  subject                    String
+  bodyHtml                   String
+  totalRecipients            Int
+  scheduledCount             Int
+  duplicatesRemoved          Int
+  delayBetweenEmailsSeconds  Int      @default(0)
+  hourlyLimit                Int      @default(50)
+  firstScheduledAt           DateTime
+  lastScheduledAt            DateTime
+  createdAt                  DateTime @default(now())
+  updatedAt                  DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sender Sender @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  emails Email[]
+
+  @@index([userId])
+  @@index([senderId])
+}
+
+model Email {
+  id            String      @id @default(uuid())
+  batchId       String
+  userId        String
+  senderId      String
+  senderEmail   String
+  to            String
+  subject       String
+  bodyHtml      String
+  bodyPreview   String
+  status        EmailStatus @default(scheduled)
+  scheduledAt   DateTime
+  sentAt        DateTime?
+  previewUrl    String?
+  failureReason String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  batch  Batch  @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sender Sender @relation(fields: [senderId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status, scheduledAt])
+  @@index([userId, status, sentAt])
+  @@index([batchId])
+  @@index([senderId, status])
+  @@index([to])
+}
+
+model SlackConnection {
+  id          String   @id @default(uuid())
+  userId      String   @unique
+  teamId      String?
+  teamName    String?
+  channelId   String?
+  channelName String?
+  webhookUrl  String
+  accessToken String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
