@@ -14,7 +14,7 @@ const envSchema = z.object({
   ELASTICSEARCH_NODE: z.string().default('http://localhost:9200'),
 
   SESSION_SECRET: z.string().min(16).default('reachinbox-super-secret-session-key-minimum-32-chars'),
-  COOKIE_SECURE: z.coerce.boolean().default(false),
+  COOKIE_SECURE: z.preprocess((v) => v === 'true' || v === true, z.boolean()).default(false),
 
   GOOGLE_CLIENT_ID: z.string().default('mock-google-client-id'),
   GOOGLE_CLIENT_SECRET: z.string().default('mock-google-client-secret'),

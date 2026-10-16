@@ -9,10 +9,10 @@
 - [x] **B-REQ-4**: Zod-based environment variable validation and `.env.example`.
 - [x] **B-REQ-5**: Centralized error middleware strictly adhering to the API contract error schema `{ "error": { "code", "message", "details" } }`.
 - [x] **B-REQ-6**: Health check endpoint `GET /api/health` returning `{ "status": "ok" }`.
-- [ ] **B-REQ-7**: Google OAuth 2.0 integration (`GET /api/auth/google`, `GET /api/auth/google/callback`) upserting users.
-- [ ] **B-REQ-8**: Server-side session management via `httpOnly` cookie `sid` and CORS credentials support.
-- [ ] **B-REQ-9**: Auth endpoints `GET /api/auth/me` and `POST /api/auth/logout`.
-- [ ] **B-REQ-10**: Route authentication middleware scoping all data access to the authenticated user.
+- [x] **B-REQ-7**: Google OAuth 2.0 integration (`GET /api/auth/google`, `GET /api/auth/google/callback`) upserting users.
+- [x] **B-REQ-8**: Server-side session management via `httpOnly` cookie `sid` and CORS credentials support.
+- [x] **B-REQ-9**: Auth endpoints `GET /api/auth/me` and `POST /api/auth/logout`.
+- [x] **B-REQ-10**: Route authentication middleware scoping all data access to the authenticated user.
 - [ ] **B-REQ-11**: Ethereal SMTP test account seeding script (`npm run seed:senders`) and `GET /api/senders` endpoint (credentials never exposed to client).
 - [ ] **B-REQ-12**: Scheduling endpoint `POST /api/emails/schedule` with full Zod validation (recipients, delay, hourly limit, past date check, deduplication).
 - [ ] **B-REQ-13**: Transactional creation of Batch and individual Email records.
@@ -63,7 +63,7 @@
 |---|---|---|
 | **Step 0** | Inspection, design notes, progress tracker, API contract | Completed |
 | **B1** | Backend Scaffold (tsconfig, eslint, zod env, docker-compose, Prisma, error middleware, health) | Completed |
-| **B2** | Auth (Google OAuth, sessions, /auth/me, logout, requireAuth, CORS) | Todo |
+| **B2** | Auth (Google OAuth, sessions, /auth/me, logout, requireAuth, CORS) | Completed |
 | **B3** | Senders (seed script, GET /senders) | Todo |
 | **B4** | Schedule API (validation, transaction, BullMQ enqueue, list, detail, counts, http examples) | Todo |
 | **B5** | Worker (sending, idempotent claim, concurrency, per-sender min delay) | Todo |
@@ -148,4 +148,4 @@
 ---
 
 ## 8. NEXT STEP
-- Proceed to **Phase B2: Auth (Google OAuth, sessions, /auth/me, logout, requireAuth, CORS)**.
+- Proceed to **Phase B3: Senders (seed script and GET /senders)**.
