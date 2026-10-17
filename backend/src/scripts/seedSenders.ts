@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import nodemailer from 'nodemailer';
 import { prisma } from '../db/prisma.js';
 import { logger } from '../utils/logger.js';

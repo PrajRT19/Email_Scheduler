@@ -50,7 +50,7 @@ export interface ScheduleEmailInput {
   subject: string;
   bodyHtml: string;
   recipients: string[];
-  startTime: string; // ISO-8601 UTC
+  startTime?: string; // ISO-8601 UTC
   delayBetweenEmailsSeconds: number; // int >= 0
   hourlyLimit: number; // int >= 1
 }

@@ -25,35 +25,35 @@
 - [x] **B-REQ-20**: Atomic database claim before sending (`UPDATE ... SET status='processing' WHERE id=? AND status='scheduled' RETURNING`).
 - [x] **B-REQ-21**: Nodemailer delivery using sender's Ethereal credentials, setting `sentAt` and `previewUrl` on success or `failureReason` on failure.
 - [x] **B-REQ-22**: Per-sender minimum delay guard in Redis using `moveToDelayed` + `DelayedError` (no thread blocking).
-- [ ] **B-REQ-23**: Distributed hourly rate limiting per sender via atomic Redis Lua script counter.
-- [ ] **B-REQ-24**: Rate limit overflow rescheduling: move job to next hour window preserving sequence, update DB `scheduledAt`, consume no slot.
-- [ ] **B-REQ-25**: Slack OAuth v2 integration (`/api/slack/connect`, `/api/slack/callback`, `/api/slack/status`, `/api/slack/disconnect`).
-- [ ] **B-REQ-26**: Slack limit-hit notification: webhook alert on first limit hit in window, deduplicated once per sender per window in Redis.
-- [ ] **B-REQ-27**: Reconcile on boot: check pending DB emails against BullMQ jobs, re-enqueue missing jobs, recover stuck processing rows.
-- [ ] **B-REQ-28**: Elasticsearch indexing for emails and multi-match query on `q` parameter, with graceful PostgreSQL `ILIKE` fallback.
-- [ ] **B-REQ-29**: Bull Board dashboard mounted at `/admin/queues`.
-- [ ] **B-REQ-30**: Load testing script `scripts/load-test.ts` validating 1000+ emails and rate limit rescheduling.
-- [ ] **B-REQ-31**: Vitest test suite covering validation, idempotency, rate limiting, rescheduling, and boot reconciliation.
+- [x] **B-REQ-23**: Distributed hourly rate limiting per sender via atomic Redis Lua script counter.
+- [x] **B-REQ-24**: Rate limit overflow rescheduling: move job to next hour window preserving sequence, update DB `scheduledAt`, consume no slot.
+- [x] **B-REQ-25**: Slack OAuth v2 integration (`/api/slack/connect`, `/api/slack/callback`, `/api/slack/status`, `/api/slack/disconnect`).
+- [x] **B-REQ-26**: Slack limit-hit notification: webhook alert on first limit hit in window, deduplicated once per sender per window in Redis.
+- [x] **B-REQ-27**: Reconcile on boot: check pending DB emails against BullMQ jobs, re-enqueue missing jobs, recover stuck processing rows.
+- [x] **B-REQ-28**: Elasticsearch indexing for emails and multi-match query on `q` parameter, with graceful PostgreSQL `ILIKE` fallback.
+- [x] **B-REQ-29**: Bull Board dashboard mounted at `/admin/queues`.
+- [x] **B-REQ-30**: Load testing script `scripts/load-test.ts` validating 1000+ emails and rate limit rescheduling.
+- [x] **B-REQ-31**: Vitest test suite covering validation, idempotency, rate limiting, rescheduling, and boot reconciliation.
 
 ### Frontend Requirements
-- [ ] **F-REQ-1**: Vite + React + TypeScript strict setup with Tailwind CSS matching design tokens from `docs/DESIGN_NOTES.md`.
-- [ ] **F-REQ-2**: Reusable UI component library (Button, Input, Badge, Popover/Modal, ListRow, Skeleton, EmptyState, Avatar).
-- [ ] **F-REQ-3**: Contract-exact API client with `credentials: "include"`, standard error handling, and TypeScript interfaces matching `docs/API_CONTRACT.md`.
-- [ ] **F-REQ-4**: Mock Service Worker (MSW) layer for full local operation via `VITE_USE_MOCKS=true`.
-- [ ] **F-REQ-5**: Login page matching design with "Login with Google", styled email/password inputs (disabled/toast), and clean responsive card.
-- [ ] **F-REQ-6**: Authentication state management (`useAuth`), route guard, auto-redirect on 401, and logout handling.
-- [ ] **F-REQ-7**: Dashboard shell: sidebar with logo, user card, dropdown (logout, Slack connect/disconnect), "Compose" button, "CORE" navigation with dynamic count badges.
-- [ ] **F-REQ-8**: Top header bar with debounced search input (`q`), filter icon, and TanStack Query refresh icon.
-- [ ] **F-REQ-9**: Scheduled email list view with status/time pill badges, recipient, subject, preview, star icon, loading skeletons, empty state, error state, and pagination.
-- [ ] **F-REQ-10**: Sent email list view with sent/failed status pill badges, loading skeletons, empty state, error state, and pagination.
-- [ ] **F-REQ-11**: Email detail view with back button, sender details, DOMPurify sanitized HTML body, Ethereal preview link, and visual attachment cards.
-- [ ] **F-REQ-12**: Compose page: sender dropdown, recipient chips with `+N` overflow, CSV/TXT upload with Papa Parse validation and deduplication.
-- [ ] **F-REQ-13**: Compose parameters: delay between emails input and hourly limit input.
-- [ ] **F-REQ-14**: TipTap rich text editor with custom toolbar matching the design (headings, bold, italic, underline, strike, lists, align, quotes, links).
-- [ ] **F-REQ-15**: "Send Later" popover with date-time picker and quick presets (Tomorrow, Tomorrow 9AM, 11AM, 3PM) setting `startTime`.
-- [ ] **F-REQ-16**: Compose form validation, submit to `POST /api/emails/schedule`, toast notifications, and redirect to Scheduled list.
-- [ ] **F-REQ-17**: Slack connect/disconnect modal/actions in user menu with real-time status display.
-- [ ] **F-REQ-18**: Vitest + React Testing Library tests for CSV parsing, compose validation, and list state transitions.
+- [x] **F-REQ-1**: Vite + React + TypeScript strict setup with Tailwind CSS matching design tokens from `docs/DESIGN_NOTES.md`.
+- [x] **F-REQ-2**: Reusable UI component library (Button, Input, Badge, Popover/Modal, ListRow, Skeleton, EmptyState, Avatar).
+- [x] **F-REQ-3**: Contract-exact API client with `credentials: "include"`, standard error handling, and TypeScript interfaces matching `docs/API_CONTRACT.md`.
+- [x] **F-REQ-4**: Mock Service Worker (MSW) layer for full local operation via `VITE_USE_MOCKS=true`.
+- [x] **F-REQ-5**: Login page matching design with "Login with Google", styled email/password inputs (disabled/toast), and clean responsive card.
+- [x] **F-REQ-6**: Authentication state management (`useAuth`), route guard, auto-redirect on 401, and logout handling.
+- [x] **F-REQ-7**: Dashboard shell: sidebar with logo, user card, dropdown (logout, Slack connect/disconnect), "Compose" button, "CORE" navigation with dynamic count badges.
+- [x] **F-REQ-8**: Top header bar with debounced search input (`q`), filter icon, and TanStack Query refresh icon.
+- [x] **F-REQ-9**: Scheduled email list view with status/time pill badges, recipient, subject, preview, star icon, loading skeletons, empty state, error state, and pagination.
+- [x] **F-REQ-10**: Sent email list view with sent/failed status pill badges, loading skeletons, empty state, error state, and pagination.
+- [x] **F-REQ-11**: Email detail view with back button, sender details, DOMPurify sanitized HTML body, Ethereal preview link, and visual attachment cards.
+- [x] **F-REQ-12**: Compose page: sender dropdown, recipient chips with `+N` overflow, CSV/TXT upload with Papa Parse validation and deduplication.
+- [x] **F-REQ-13**: Compose parameters: delay between emails input and hourly limit input.
+- [x] **F-REQ-14**: TipTap rich text editor with custom toolbar matching the design (headings, bold, italic, underline, strike, lists, align, quotes, links).
+- [x] **F-REQ-15**: "Send Later" popover with date-time picker and quick presets (Tomorrow, Tomorrow 9AM, 11AM, 3PM) setting `startTime`.
+- [x] **F-REQ-16**: Compose form validation, submit to `POST /api/emails/schedule`, toast notifications, and redirect to Scheduled list.
+- [x] **F-REQ-17**: Slack connect/disconnect modal/actions in user menu with real-time status display.
+- [x] **F-REQ-18**: Vitest + React Testing Library tests for CSV parsing, compose validation, and list state transitions.
 
 ---
 
@@ -67,22 +67,22 @@
 | **B3** | Senders (seed script, GET /senders) | Completed |
 | **B4** | Schedule API (validation, transaction, BullMQ enqueue, list, detail, counts, http examples) | Completed |
 | **B5** | Worker (sending, idempotent claim, concurrency, per-sender min delay) | Completed |
-| **B6** | Rate Limiting (Lua counter, reschedule to next window, load test) | Todo |
-| **B7** | Elasticsearch (mapping, indexing on create/update, q search, DB fallback) | Todo |
-| **B8** | Slack (OAuth connect/status/disconnect, limit-hit webhook notification) | Todo |
-| **B9** | Restart Safety (reconcile on boot, crash recovery manual test) | Todo |
-| **B10**| Bull Board (/admin/queues), backend README, checklist pass | Todo |
-| **F1** | Frontend Scaffold (Vite, Tailwind, tokens, API client, types, MSW skeleton) | Todo |
-| **F2** | UI Primitives + temporary /ui-kit comparison | Todo |
-| **F3** | Login page & auth flow (useAuth, route guard, logout) | Todo |
-| **F4** | Dashboard layout (sidebar, header, search, counts) | Todo |
-| **F5** | Scheduled & Sent lists (states, pagination, search) | Todo |
-| **F6** | Email detail page | Todo |
-| **F7** | Compose page (fields, CSV upload, chips, editor, Send Later popover, submit) | Todo |
-| **F8** | Slack connect/disconnect UI in user menu | Todo |
-| **F9** | Polish, visual comparison vs design PNGs, accessibility, frontend README | Todo |
-| **I1** | End-to-end integration with live backend (mocks disabled), docs/INTEGRATION.md | Todo |
-| **I2** | Root README, full assignment verification, final audit | Todo |
+| **B6** | Rate Limiting (Lua counter, reschedule to next window, load test) | Completed |
+| **B7** | Elasticsearch (mapping, indexing on create/update, q search, DB fallback) | Completed |
+| **B8** | Slack (OAuth connect/status/disconnect, limit-hit webhook notification) | Completed |
+| **B9** | Restart Safety (reconcile on boot, crash recovery manual test) | Completed |
+| **B10**| Bull Board (/admin/queues), backend README, checklist pass | Completed |
+| **F1** | Frontend Scaffold (Vite, Tailwind, tokens, API client, types, MSW skeleton) | Completed |
+| **F2** | UI Primitives + temporary /ui-kit comparison | Completed |
+| **F3** | Login page & auth flow (useAuth, route guard, logout) | Completed |
+| **F4** | Dashboard layout (sidebar, header, search, counts) | Completed |
+| **F5** | Scheduled & Sent lists (states, pagination, search) | Completed |
+| **F6** | Email detail page | Completed |
+| **F7** | Compose page (fields, CSV upload, chips, editor, Send Later popover, submit) | Completed |
+| **F8** | Slack connect/disconnect UI in user menu | Completed |
+| **F9** | Polish, visual comparison vs design PNGs, accessibility, frontend README | Completed |
+| **I1** | End-to-end integration with live backend (mocks disabled), docs/INTEGRATION.md | Completed |
+| **I2** | Root README, full assignment verification, final audit | Completed |
 
 ---
 
@@ -148,4 +148,5 @@
 ---
 
 ## 8. NEXT STEP
-- Proceed to **Phase B6: Rate limiting (Lua counter, reschedule to next window, load test)**.
+- All Backend, Frontend, and Integration phases are **Completed**.
+- Ready for local running, live Bull Board queue monitoring, and assignment demonstration.
